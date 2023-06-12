@@ -9,7 +9,11 @@ exports.checkUserExists = async (username) => {
 };
 
 // Create a new user
-exports.createUser = async (username) => {
-  const insertQuery = 'INSERT INTO users (username) VALUES ($1)';
-  await db.query(insertQuery, [username]);
+exports.createUser = async (username, password) => {
+  // Encrypt or hash the password before storing it in the database
+  // Example: You can use bcrypt or any other suitable library for password encryption/hashing
+  const encryptedPassword = await encryptPassword(password);
+
+  const insertQuery = 'INSERT INTO users (username, password) VALUES ($1, $2)';
+  await db.query(insertQuery, [username, encryptedPassword]);
 };
